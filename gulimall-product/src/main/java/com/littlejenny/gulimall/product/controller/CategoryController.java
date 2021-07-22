@@ -1,6 +1,7 @@
 package com.littlejenny.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +32,13 @@ public class CategoryController {
     private CategoryService categoryService;
 
     /**
-     * 列表
+     * 查出分類及子分類，並以樹結構組裝
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
-
-        return R.ok().put("page", page);
+    @RequestMapping("/list/tree")
+    public R list(){
+        List<CategoryEntity> entityList = categoryService.listWithTree();
+        return R.ok().put("data", entityList);
     }
-
 
     /**
      * 信息
@@ -72,13 +71,24 @@ public class CategoryController {
     }
 
     /**
-     * 删除
+     * 批量修改
+     * @param categorys
+     * @return
      */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
-
+    @RequestMapping("/update/sort")
+    public R updates(@RequestBody CategoryEntity[] categorys){
+        categoryService.updateBatchById(Arrays.asList(categorys));
         return R.ok();
     }
 
+    /**
+     * 删除
+     * @RequestBody 獲取請求體，而請求體只有Post才有
+     * SpringMVC將請求體(json)轉為對象
+     */
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Long[] catIds){
+        categoryService.removeMenuByIds(Arrays.asList(catIds));
+        return R.ok();
+    }
 }
