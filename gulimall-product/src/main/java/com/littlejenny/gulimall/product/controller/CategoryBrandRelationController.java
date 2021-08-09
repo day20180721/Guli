@@ -1,8 +1,11 @@
 package com.littlejenny.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.littlejenny.gulimall.product.vo.CategoryBrandRelationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +33,12 @@ public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
 
+    @RequestMapping("/brands/list")
+    public R brandsList(@RequestParam Long catId){
+//        PageUtils page = categoryBrandRelationService.queryPage(params);
+        List<CategoryBrandRelationVO> data = categoryBrandRelationService.getAllByCatId(catId);
+        return R.ok().put("data", data);
+    }
     /**
      * 列表
      */
@@ -38,6 +47,16 @@ public class CategoryBrandRelationController {
         PageUtils page = categoryBrandRelationService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    @RequestMapping("catelog/list")
+    public R catelogList(@RequestParam Long brandId){
+//        PageUtils page = categoryBrandRelationService.queryPage(params);
+        CategoryBrandRelationEntity[] entities = categoryBrandRelationService.catelogList(brandId);
+        /*
+        透過傳來的BrandID找到此Brand所關聯的分類名稱
+         */
+        return R.ok().put("data", entities);
     }
 
 
@@ -50,24 +69,23 @@ public class CategoryBrandRelationController {
 
         return R.ok().put("categoryBrandRelation", categoryBrandRelation);
     }
-
     /**
-     * 保存
+     * 目前只會傳brandID及categoryID，而我要用這兩個屬性分別在對應的資料庫找到名稱，然後再存
      */
     @RequestMapping("/save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
-
+//		categoryBrandRelationService.save(categoryBrandRelation);
+        categoryBrandRelationService.saveDetail(categoryBrandRelation);
         return R.ok();
     }
 
     /**
-     * 修改
+     * 目前只會傳brandID及categoryID，而我要用這兩個屬性分別在對應的資料庫找到名稱，然後再存
      */
     @RequestMapping("/update")
     public R update(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.updateById(categoryBrandRelation);
-
+//		categoryBrandRelationService.updateById(categoryBrandRelation);
+        categoryBrandRelationService.updateDetailById(categoryBrandRelation);
         return R.ok();
     }
 

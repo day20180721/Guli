@@ -8,6 +8,10 @@
 
 package com.littlejenny.common.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
@@ -20,12 +24,28 @@ import java.util.Map;
  */
 public class R extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
-	
+	public R setData(Object obj){
+		return this.put("data",obj);
+	}
+	public <T> T getData(TypeReference<T> type){
+		Object data = this.get("data");
+		String s = JSON.toJSONString(data);
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			T t = objectMapper.readValue(s, type);
+			return t;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public R() {
 		put("code", 0);
 		put("msg", "success");
 	}
-	
+	public Integer getCode(){
+		return (Integer)get("code");
+	}
 	public static R error() {
 		return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, "未知异常，请联系管理员");
 	}

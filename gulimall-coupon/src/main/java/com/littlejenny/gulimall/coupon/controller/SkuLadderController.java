@@ -57,7 +57,6 @@ public class SkuLadderController {
     @RequestMapping("/save")
     public R save(@RequestBody SkuLadderEntity skuLadder){
 		skuLadderService.save(skuLadder);
-
         return R.ok();
     }
 

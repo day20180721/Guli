@@ -2,8 +2,11 @@ package com.littlejenny.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.littlejenny.common.utils.PageUtils;
+import com.littlejenny.gulimall.product.entity.AttrEntity;
 import com.littlejenny.gulimall.product.entity.AttrGroupEntity;
+import com.littlejenny.gulimall.product.vo.AttrGroupEntityVO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +19,13 @@ import java.util.Map;
 public interface AttrGroupService extends IService<AttrGroupEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils queryPage(Map<String, Object> params, Long catId);
+
+    List<AttrEntity> getAttrsByGroupId(Long groupId);
+
+    void removeDetailByIds(List<Long> asList);
+
+    List<AttrGroupEntityVO> getGroupwithattrByCatId(Long catId);
 }
 

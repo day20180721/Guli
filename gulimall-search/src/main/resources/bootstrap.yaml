@@ -1,0 +1,20 @@
+Spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: 5a89139f-7cde-4743-b849-0160f714cb09
+        extension-configs[0]:
+          data-id: BaseConfig.yaml
+          group: dev   # 默认为DEFAULT_GROUP
+          refresh: true   # 是否动态刷新，默认为false
+        extension-configs[1]:
+          data-id: NacosService.yaml
+          group: dev
+          refresh: true
+
+
+
+
+
+

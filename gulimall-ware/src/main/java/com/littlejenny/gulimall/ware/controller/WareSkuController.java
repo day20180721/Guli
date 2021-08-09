@@ -1,8 +1,11 @@
 package com.littlejenny.gulimall.ware.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.littlejenny.common.to.HasStockTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,13 +33,18 @@ public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
 
+    @RequestMapping("/hasStockById")
+    public R hasStockByIds(@RequestBody List<Long> skuIds){
+        Map<Long, HasStockTO> map = wareSkuService.hasStockByIds(skuIds);
+        return R.ok().setData(map);
+    }
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = wareSkuService.queryPage(params);
-
+//        PageUtils page = wareSkuService.queryPage(params);
+        PageUtils page = wareSkuService.queryPageBySkuIdWareId(params);
         return R.ok().put("page", page);
     }
 

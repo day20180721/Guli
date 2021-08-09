@@ -12,6 +12,12 @@
         <result property="skuName" column="sku_name"/>
         <result property="stockLocked" column="stock_locked"/>
     </resultMap>
+    <update id="updateStock">
+        update wms_ware_sku set stock = stock + #{skuNum} where id = #{skuId} and ware_id = #{wareId}
+    </update>
+    <select id="hasStockById" resultType="java.lang.Integer">
+        SELECT sum(stock - stock_locked) FROM gulimall_wms.wms_ware_sku where sku_id = #{skuId};
+    </select>
 
 
 </mapper>

@@ -12,5 +12,6 @@ buildNumber.properties
 
 */**/.git
 */**/*..gitignore
+
 renren-fast/
 renren-generator/

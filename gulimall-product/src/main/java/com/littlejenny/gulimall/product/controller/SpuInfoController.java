@@ -3,12 +3,9 @@ package com.littlejenny.gulimall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.littlejenny.gulimall.product.vo.addproduct.SpuVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.littlejenny.gulimall.product.entity.SpuInfoEntity;
 import com.littlejenny.gulimall.product.service.SpuInfoService;
@@ -29,14 +26,19 @@ import com.littlejenny.common.utils.R;
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
-
+    //http://localhost:88/api/product/spuinfo/1/up
+    @PostMapping("/{spuId}/up")
+    public R upSpuById(@PathVariable("spuId")Long spuId){
+        spuInfoService.upSpuById(spuId);
+        return R.ok();
+    }
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
-
+//        PageUtils page = spuInfoService.queryPage(params);
+        PageUtils page = spuInfoService.queryByCidBidKeyStatus(params);
         return R.ok().put("page", page);
     }
 
@@ -54,10 +56,10 @@ public class SpuInfoController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
-
+    @PostMapping("/save")
+    public R save(@RequestBody SpuVO Spuvo){
+//		spuInfoService.save(spuInfo);
+        spuInfoService.saveDetail(Spuvo);
         return R.ok();
     }
 

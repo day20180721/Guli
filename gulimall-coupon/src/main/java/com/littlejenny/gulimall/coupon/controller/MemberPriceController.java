@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.littlejenny.gulimall.coupon.entity.MemberPriceEntity;
 import com.littlejenny.gulimall.coupon.service.MemberPriceService;
@@ -58,6 +54,11 @@ public class MemberPriceController {
     public R save(@RequestBody MemberPriceEntity memberPrice){
 		memberPriceService.save(memberPrice);
 
+        return R.ok();
+    }
+    @PostMapping("/saveBatch")
+    public R saveBatch(@RequestBody MemberPriceEntity[] memberPrice){
+        memberPriceService.saveBatch(Arrays.asList(memberPrice));
         return R.ok();
     }
 

@@ -3,6 +3,7 @@ package com.littlejenny.gulimall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.littlejenny.common.utils.PageUtils;
 import com.littlejenny.gulimall.product.entity.SpuInfoEntity;
+import com.littlejenny.gulimall.product.vo.addproduct.SpuVO;
 
 import java.util.Map;
 
@@ -16,5 +17,12 @@ import java.util.Map;
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveDetail(SpuVO spuvo);
+
+    PageUtils queryByCidBidKeyStatus(Map<String, Object> params);
+
+    void upSpuById(Long spuId);
+
 }
 

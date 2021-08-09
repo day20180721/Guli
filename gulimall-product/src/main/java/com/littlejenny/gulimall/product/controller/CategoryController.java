@@ -46,8 +46,7 @@ public class CategoryController {
     @RequestMapping("/info/{catId}")
     public R info(@PathVariable("catId") Long catId){
 		CategoryEntity category = categoryService.getById(catId);
-
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
@@ -59,14 +58,14 @@ public class CategoryController {
 
         return R.ok();
     }
-
+    //update時必須同時維護categoryBrandRelation的名稱
     /**
      * 修改
      */
     @RequestMapping("/update")
     public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
-
+//		categoryService.updateById(category);
+        categoryService.updateDetailByID(category);
         return R.ok();
     }
 

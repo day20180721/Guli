@@ -3,7 +3,10 @@ package com.littlejenny.gulimall.ware.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.littlejenny.common.utils.PageUtils;
 import com.littlejenny.gulimall.ware.entity.PurchaseEntity;
+import com.littlejenny.gulimall.ware.vo.DoneVO;
+import com.littlejenny.gulimall.ware.vo.PurchaseVO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +19,13 @@ import java.util.Map;
 public interface PurchaseService extends IService<PurchaseEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils queryPageUnreceiveList(Map<String, Object> params);
+
+    void merge(PurchaseVO vo);
+
+    void received(List<Long> ids);
+
+    void done(DoneVO vo);
 }
 
