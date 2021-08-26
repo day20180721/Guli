@@ -24,6 +24,7 @@
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
-
-
+    <select id="accountIsExist" resultType="Integer">
+        SELECT count(*) FROM gulimall_ums.ums_member where username=#{username} or email=#{username};
+    </select>
 </mapper>

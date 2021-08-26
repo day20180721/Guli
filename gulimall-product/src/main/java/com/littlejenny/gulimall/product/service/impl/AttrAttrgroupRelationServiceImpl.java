@@ -1,6 +1,6 @@
 package com.littlejenny.gulimall.product.service.impl;
 
-import com.littlejenny.common.constant.Product;
+import com.littlejenny.common.constant.ProductConstants;
 import com.littlejenny.gulimall.product.entity.AttrEntity;
 import com.littlejenny.gulimall.product.entity.AttrGroupEntity;
 import com.littlejenny.gulimall.product.service.AttrGroupService;
@@ -92,7 +92,7 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
             });
         }
         //6.只要基本屬性
-        aWrapper.eq("attr_type", Product.AttrTypeEnum.ATTR_TYPE_BASE.getCode());
+        aWrapper.eq("attr_type", ProductConstants.AttrTypeEnum.ATTR_TYPE_BASE.getCode());
         // page: 1,//当前页码
         // limit: 10,//每页记录数
         IPage<AttrEntity> page = attrService.page(new Query<AttrEntity>().getPage(params), aWrapper);

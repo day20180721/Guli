@@ -3,6 +3,10 @@ package com.littlejenny.gulimall.member.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.littlejenny.common.utils.PageUtils;
 import com.littlejenny.gulimall.member.entity.MemberEntity;
+import com.littlejenny.gulimall.member.exception.SameAccountException;
+import com.littlejenny.gulimall.member.vo.regist.GoogleUserInfoVO;
+import com.littlejenny.gulimall.member.vo.regist.LoginAccountVO;
+import com.littlejenny.gulimall.member.vo.regist.RegistAccountVO;
 
 import java.util.Map;
 
@@ -16,5 +20,11 @@ import java.util.Map;
 public interface MemberService extends IService<MemberEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    MemberEntity regist(RegistAccountVO vo)throws SameAccountException;
+
+    MemberEntity oauthLogin(GoogleUserInfoVO vo);
+
+    MemberEntity login(LoginAccountVO vo);
 }
 

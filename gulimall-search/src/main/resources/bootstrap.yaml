@@ -12,6 +12,14 @@ Spring:
           data-id: NacosService.yaml
           group: dev
           refresh: true
+        extension-configs[2]:
+          data-id: Redis.yaml
+          group: dev
+          refresh: true
+spring:
+  session:
+    store-type: redis
+
 
 
 

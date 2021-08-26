@@ -1,6 +1,10 @@
 package com.littlejenny.gulimall.product.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -26,4 +30,10 @@ public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoD
         return new PageUtils(page);
     }
 
+    @Override
+    public List<String> getBySpuId(Long spuId) {
+        SpuInfoDescEntity entity = this.getById(spuId);
+        List<String> urls = Arrays.asList(entity.getDecript().split(","));
+        return urls;
+    }
 }

@@ -7,6 +7,8 @@ import com.littlejenny.gulimall.product.entity.ProductAttrValueEntity;
 import com.littlejenny.gulimall.product.vo.AttrResponseVO;
 import com.littlejenny.gulimall.product.vo.AttrVO;
 import com.littlejenny.gulimall.product.vo.AttrValueVO;
+import com.littlejenny.gulimall.product.vo.item.SkuAttrGroupVO;
+import com.littlejenny.gulimall.product.vo.item.SpuAttrGroupVO;
 
 import java.util.List;
 import java.util.Map;
@@ -36,5 +38,9 @@ public interface AttrService extends IService<AttrEntity> {
     List<ProductAttrValueEntity> getKVbySpuId(Long spuId);
 
     List<Long> filterSearchable(List<Long> unFilterAttrsIds);
+
+    List<SkuAttrGroupVO> getAllSaleAttrBySpuId(Long spuId);
+
+    List<SpuAttrGroupVO> getAllAttrContainGroupByCatlogIdAndSpuId(Long catalogId, Long spuId);
 }
 

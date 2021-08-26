@@ -1,0 +1,34 @@
+Spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: df9b95fb-d025-4d25-b75c-9c4153559c87
+        extension-configs[0]:
+          data-id: BaseConfig.yaml
+          group: dev   # 默认为DEFAULT_GROUP
+          refresh: true   # 是否动态刷新，默认为false
+        extension-configs[1]:
+          data-id: NacosService.yaml
+          group: dev
+          refresh: true
+        extension-configs[2]:
+          data-id: Redis.yaml
+          group: dev
+          refresh: true
+        extension-configs[3]:
+          data-id: GoogleApi.yaml
+          group: dev
+          refresh: true
+spring:
+  session:
+    store-type: redis
+
+
+
+
+
+
+
+
+

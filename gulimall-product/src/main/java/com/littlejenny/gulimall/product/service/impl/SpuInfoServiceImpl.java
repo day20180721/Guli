@@ -1,7 +1,7 @@
 package com.littlejenny.gulimall.product.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.littlejenny.common.constant.Product;
+import com.littlejenny.common.constant.ProductConstants;
 import com.littlejenny.common.to.*;
 import com.littlejenny.common.to.es.SkuEsModel;
 import com.littlejenny.common.utils.R;
@@ -287,7 +287,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         R elasticResult = elasticService.save(skuEsModels);
         if(elasticResult.getCode() == 0){
             //TODO 將數據庫內的publish_status改成上架
-            spuInfoDao.updatePublishStatus(spuId, Product.SpuPublishStatus.ON.getCode());
+            spuInfoDao.updatePublishStatus(spuId, ProductConstants.SpuPublishStatus.ON.getCode());
         }
     }
 }

@@ -1,11 +1,13 @@
 package com.littlejenny.gulimall.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.littlejenny.common.constant.Product;
+import com.littlejenny.common.constant.ProductConstants;
 import com.littlejenny.gulimall.product.entity.*;
 import com.littlejenny.gulimall.product.service.*;
 import com.littlejenny.gulimall.product.vo.AttrResponseVO;
 import com.littlejenny.gulimall.product.vo.AttrVO;
 import com.littlejenny.gulimall.product.vo.AttrValueVO;
+import com.littlejenny.gulimall.product.vo.item.SkuAttrGroupVO;
+import com.littlejenny.gulimall.product.vo.item.SpuAttrGroupVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +62,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             });
         }
 
-        int intType = "base".equals(type) ? Product.AttrTypeEnum.ATTR_TYPE_BASE.getCode() : Product.AttrTypeEnum.ATTR_TYPE_SALE.getCode();
+        int intType = "base".equals(type) ? ProductConstants.AttrTypeEnum.ATTR_TYPE_BASE.getCode() : ProductConstants.AttrTypeEnum.ATTR_TYPE_SALE.getCode();
         wrapper.eq("attr_type",intType);
 
         IPage<AttrEntity> page = this.page(
@@ -111,7 +113,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         BeanUtils.copyProperties(attr,entity);
         this.save(entity);
         //1=basic property
-        if(entity.getAttrType() == Product.AttrTypeEnum.ATTR_TYPE_BASE.getCode() && attr.getAttrGroupId() != null){
+        if(entity.getAttrType() == ProductConstants.AttrTypeEnum.ATTR_TYPE_BASE.getCode() && attr.getAttrGroupId() != null){
             AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
             relationEntity.setAttrGroupId(attr.getAttrGroupId());
             relationEntity.setAttrId(entity.getAttrId());
@@ -141,7 +143,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         //回一個catelogpath
 
         //回顯分組，如果是BASE才需要
-        if(vo.getAttrType() == Product.AttrTypeEnum.ATTR_TYPE_BASE.getCode()){
+        if(vo.getAttrType() == ProductConstants.AttrTypeEnum.ATTR_TYPE_BASE.getCode()){
             QueryWrapper<AttrAttrgroupRelationEntity> aaWrapper = new QueryWrapper<>();
             aaWrapper.eq("attr_id", vo.getAttrId());
 
@@ -171,7 +173,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         AttrEntity entity = new AttrEntity();
         BeanUtils.copyProperties(attr,entity);
         this.updateById(entity);
-        if(entity.getAttrType() == Product.AttrTypeEnum.ATTR_TYPE_BASE.getCode() && attr.getAttrGroupId() != null) {
+        if(entity.getAttrType() == ProductConstants.AttrTypeEnum.ATTR_TYPE_BASE.getCode() && attr.getAttrGroupId() != null) {
             //有可能屬性本來就沒分組
             QueryWrapper<AttrAttrgroupRelationEntity> countWrapper = new QueryWrapper<>();
             countWrapper.eq("attr_id",attr.getAttrId());
@@ -195,6 +197,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
     @Autowired
     private ProductAttrValueService productAttrValueService;
+
+    /**
+     * @param spuId 要刪除之Attr的SpuId
+     * @param vos 該SpuId所對應的新Attr值
+     */
     @Transactional
     @Override
     public void updateAllBySpuId(Long spuId, List<AttrValueVO> vos) {
@@ -211,6 +218,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }).collect(Collectors.toList());
         productAttrValueService.saveBatch(productAttrValueEntities);
     }
+
+    /**
+     * @param spuId 查詢基礎屬性關聯值表中的判定依據
+     * @return
+     */
     @Override
     public List<ProductAttrValueEntity> getKVbySpuId(Long spuId) {
         QueryWrapper<ProductAttrValueEntity> wrapper = new QueryWrapper<>();
@@ -223,8 +235,19 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     public List<Long> filterSearchable(List<Long> unFilterAttrsIds) {
         List<Long> collect = unFilterAttrsIds.stream().filter(item -> {
             AttrEntity entity = getById(item);
-            return entity.getSearchType() == Product.AttrSearchAble.CAN.getCode();
+            return entity.getSearchType() == ProductConstants.AttrSearchAble.CAN.getCode();
         }).collect(Collectors.toList());
         return collect;
+    }
+    @Override
+    public List<SkuAttrGroupVO> getAllSaleAttrBySpuId(Long spuId) {
+        List<SkuAttrGroupVO> list = this.baseMapper.getAllSaleAttrBySpuId(spuId);
+        return list;
+    }
+
+    @Override
+    public List<SpuAttrGroupVO> getAllAttrContainGroupByCatlogIdAndSpuId(Long catalogId, Long spuId) {
+        List<SpuAttrGroupVO> list = this.baseMapper.getAllAttrContainGroupByCatlogId(catalogId,spuId);
+        return list;
     }
 }

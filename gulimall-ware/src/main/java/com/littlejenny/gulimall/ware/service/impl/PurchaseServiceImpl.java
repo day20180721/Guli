@@ -1,6 +1,6 @@
 package com.littlejenny.gulimall.ware.service.impl;
 
-import com.littlejenny.common.constant.Ware;
+import com.littlejenny.common.constant.WareConstants;
 import com.littlejenny.gulimall.ware.entity.PurchaseDetailEntity;
 import com.littlejenny.gulimall.ware.service.PurchaseDetailService;
 import com.littlejenny.gulimall.ware.service.WareSkuService;
@@ -41,11 +41,11 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             //更新採購單狀態
             PurchaseEntity entity = getById(item);
             //確認此採購單是不是已經完成了，如果是則跳過
-            if(entity == null || !(entity.getStatus() == Ware.PurchaseStatus.CREATED.getCode() || entity.getStatus() == Ware.PurchaseStatus.ASSIGNED.getCode())){
+            if(entity == null || !(entity.getStatus() == WareConstants.PurchaseStatus.CREATED.getCode() || entity.getStatus() == WareConstants.PurchaseStatus.ASSIGNED.getCode())){
                 return;
             }
             entity.setUpdateTime(new Date());
-            entity.setStatus(Ware.PurchaseStatus.RECEIVE.getCode());
+            entity.setStatus(WareConstants.PurchaseStatus.RECEIVE.getCode());
             updateById(entity);
             //根據此採購單找尋對應之項目，而我們在一開始分配時就有先過濾掉
             //除了新建或是等待的項目
@@ -56,9 +56,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             List<PurchaseDetailEntity> purchaseDetailEntities = purchaseDetailService.list(wrapper);
             //更新這些項目後保存
             List<PurchaseDetailEntity> modifiedEntities = purchaseDetailEntities.stream().filter(item2->{
-                return (item2.getStatus() == Ware.PurchaseDetailStatus.CREATED.getCode() || item2.getStatus() == Ware.PurchaseDetailStatus.ASSIGNED.getCode());
+                return (item2.getStatus() == WareConstants.PurchaseDetailStatus.CREATED.getCode() || item2.getStatus() == WareConstants.PurchaseDetailStatus.ASSIGNED.getCode());
             }).map(dItem -> {
-                dItem.setStatus(Ware.PurchaseDetailStatus.BUYING.getCode());
+                dItem.setStatus(WareConstants.PurchaseDetailStatus.BUYING.getCode());
                 return dItem;
             }).collect(Collectors.toList());
             //如果篩選完後為空就不用存了會報錯
@@ -82,7 +82,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             PurchaseDetailEntity detailEntity = purchaseDetailService.getById(itemId);
             detailEntity.setStatus(status);
             purchaseDetailService.updateById(detailEntity);
-            if(status == Ware.PurchaseDetailStatus.HASERROR.getCode()){
+            if(status == WareConstants.PurchaseDetailStatus.HASERROR.getCode()){
                 success = false;
             }else {
                 //更改庫存
@@ -96,9 +96,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         //更改採購單狀態
         purchaseEntity.setUpdateTime(new Date());
         if(!success){
-            purchaseEntity.setStatus(Ware.PurchaseStatus.HASERROR.getCode());
+            purchaseEntity.setStatus(WareConstants.PurchaseStatus.HASERROR.getCode());
         }else {
-            purchaseEntity.setStatus(Ware.PurchaseStatus.FINISH.getCode());
+            purchaseEntity.setStatus(WareConstants.PurchaseStatus.FINISH.getCode());
         }
         updateById(purchaseEntity);
         //
@@ -116,9 +116,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             wrapper.in("id",items);
             //確認此項目是否仍然為新建或是剛分配，還沒被採購員確認購買
             wrapper.and(w ->{
-                w.eq("status",Ware.PurchaseDetailStatus.ASSIGNED.getCode())
+                w.eq("status", WareConstants.PurchaseDetailStatus.ASSIGNED.getCode())
                         .or()
-                        .eq("status",Ware.PurchaseDetailStatus.CREATED.getCode());
+                        .eq("status", WareConstants.PurchaseDetailStatus.CREATED.getCode());
             });
         }
         List<PurchaseDetailEntity> purchaseDetailEntities = purchaseDetailService.list(wrapper);
@@ -129,7 +129,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
                 PurchaseEntity purchaseEntity = new PurchaseEntity();
                 purchaseEntity.setCreateTime(new Date());
                 purchaseEntity.setUpdateTime(new Date());
-                purchaseEntity.setStatus(Ware.PurchaseStatus.CREATED.getCode());
+                purchaseEntity.setStatus(WareConstants.PurchaseStatus.CREATED.getCode());
                 save(purchaseEntity);
                 purchaseId = purchaseEntity.getId();
             }else {
@@ -143,7 +143,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             Long finalPurchaseId = purchaseId;
             List<PurchaseDetailEntity> modifiedentities = purchaseDetailEntities.stream().map(item -> {
                 item.setPurchaseId(finalPurchaseId);
-                item.setStatus(Ware.PurchaseDetailStatus.ASSIGNED.getCode());
+                item.setStatus(WareConstants.PurchaseDetailStatus.ASSIGNED.getCode());
                 return item;
             }).collect(Collectors.toList());
             purchaseDetailService.updateBatchById(modifiedentities);
@@ -163,9 +163,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     @Override
     public PageUtils queryPageUnreceiveList(Map<String, Object> params) {
         QueryWrapper<PurchaseEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("status", Ware.PurchaseStatus.CREATED.getCode())
+        wrapper.eq("status", WareConstants.PurchaseStatus.CREATED.getCode())
                 .or()
-                .eq("status",Ware.PurchaseStatus.ASSIGNED.getCode());
+                .eq("status", WareConstants.PurchaseStatus.ASSIGNED.getCode());
         IPage<PurchaseEntity> page = this.page(
                 new Query<PurchaseEntity>().getPage(params),
                 wrapper

@@ -27,8 +27,8 @@ public class R extends HashMap<String, Object> {
 	public R setData(Object obj){
 		return this.put("data",obj);
 	}
-	public <T> T getData(TypeReference<T> type){
-		Object data = this.get("data");
+	public <T> T getValue(String key,TypeReference<T> type){
+		Object data = this.get(key);
 		String s = JSON.toJSONString(data);
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
@@ -39,6 +39,9 @@ public class R extends HashMap<String, Object> {
 		}
 		return null;
 	}
+	public <T> T getData(TypeReference<T> type){
+		return getValue("data",type);
+	}
 	public R() {
 		put("code", 0);
 		put("msg", "success");
@@ -46,6 +49,7 @@ public class R extends HashMap<String, Object> {
 	public Integer getCode(){
 		return (Integer)get("code");
 	}
+	public String getMsg(){return (String)get("msg");}
 	public static R error() {
 		return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, "未知异常，请联系管理员");
 	}

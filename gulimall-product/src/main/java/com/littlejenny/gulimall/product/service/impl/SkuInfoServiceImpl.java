@@ -1,7 +1,10 @@
 package com.littlejenny.gulimall.product.service.impl;
 
+import com.littlejenny.gulimall.product.entity.SpuInfoDescEntity;
 import com.littlejenny.gulimall.product.entity.SpuInfoEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

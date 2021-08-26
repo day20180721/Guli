@@ -32,8 +32,4 @@ public class BlobController {
         map.put("signature",signature);
         return map;
     }
-    @PostMapping("/hello")
-    public String hello(){
-        return "hello";
-    }
 }

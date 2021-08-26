@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.littlejenny.common.to.HasStockTO;
 import com.littlejenny.common.utils.PageUtils;
 import com.littlejenny.gulimall.ware.entity.WareSkuEntity;
+import com.littlejenny.common.exception.ware.NoWareCanHandleSkuException;
+import com.littlejenny.gulimall.ware.to.SubtractStockTO;
 
 import java.util.List;
 import java.util.Map;
@@ -24,5 +26,7 @@ public interface WareSkuService extends IService<WareSkuEntity> {
     void updateStock(Long skuId, Long wareId, Integer skuNum);
 
     Map<Long, HasStockTO> hasStockByIds(List<Long> skuIds);
+
+    void subTractStock(List<SubtractStockTO> subtarctStockTOS)throws NoWareCanHandleSkuException;
 }
 

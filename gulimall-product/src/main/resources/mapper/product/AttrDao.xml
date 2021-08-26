@@ -15,6 +15,34 @@
         <result property="catelogId" column="catelog_id"/>
         <result property="showDesc" column="show_desc"/>
     </resultMap>
+    <resultMap id="SkuAttrGroupVO" type="com.littlejenny.gulimall.product.vo.item.SkuAttrGroupVO">
+        <result property="attrId" column="attr_id"></result>
+        <result property="attrName" column="attr_name"></result>
+        <collection property="attrVOList" ofType="com.littlejenny.gulimall.product.vo.item.SkuAttrVO">
+            <result property="attrValue" column="attr_value"></result>
+            <result property="skuIds" column="sku_ids"></result>
+        </collection>
+    </resultMap>
+    <select id="getAllSaleAttrBySpuId" resultMap="SkuAttrGroupVO">
+        SELECT group_concat(distinct si.sku_id) sku_ids,group_concat(distinct ssav.attr_id) attr_id,group_concat(distinct ssav.attr_name) attr_name,ssav.attr_value attr_value FROM pms_sku_info si
+        LEFT JOIN pms_sku_sale_attr_value ssav ON ssav.sku_id = si.sku_id
+        where si.spu_id = #{spuId}
+        GROUP BY ssav.attr_value;
+    </select>
 
+    <resultMap id="SpuAttrGroupVO" type="com.littlejenny.gulimall.product.vo.item.SpuAttrGroupVO">
+        <result property="attrGroupName" column="attr_group_name"></result>
+        <collection property="attrVOS" ofType="com.littlejenny.gulimall.product.vo.item.SpuAttrVO">
+            <result property="attrValue" column="attr_value"></result>
+            <result property="attrName" column="attr_name"></result>
+            <result property="attrId" column="attr_id"></result>
+        </collection>
+    </resultMap>
 
+    <select id="getAllAttrContainGroupByCatlogId" resultMap="SpuAttrGroupVO">
+        SELECT  ag.attr_group_name attr_group_name,aar.attr_id attr_id,pav.attr_name attr_name,pav.attr_value attr_value FROM pms_attr_group ag
+        LEFT JOIN pms_attr_attrgroup_relation aar ON ag.attr_group_id = aar.attr_group_id
+        LEFT JOIN pms_product_attr_value pav ON pav.attr_id = aar.attr_id
+        where ag.catelog_id =#{catalogId} AND pav.spu_id = #{spuId};
+    </select>
 </mapper>

@@ -1,6 +1,8 @@
 package com.littlejenny.gulimall.member.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -26,4 +28,14 @@ public class MemberLevelServiceImpl extends ServiceImpl<MemberLevelDao, MemberLe
         return new PageUtils(page);
     }
 
+    @Override
+    public Long getDefaultLevel() {
+        QueryWrapper<MemberLevelEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("default_status",1);
+        List<MemberLevelEntity> list = list(wrapper);
+        if(list.size() == 1){
+            return list.get(0).getId();
+        }
+        return null;
+    }
 }

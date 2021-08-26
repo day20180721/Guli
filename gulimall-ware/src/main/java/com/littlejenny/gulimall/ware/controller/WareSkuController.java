@@ -1,17 +1,15 @@
 package com.littlejenny.gulimall.ware.controller;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.littlejenny.common.exception.BizCodeEnum;
 import com.littlejenny.common.to.HasStockTO;
+import com.littlejenny.common.exception.ware.NoWareCanHandleSkuException;
+import com.littlejenny.gulimall.ware.to.SubtractStockTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.littlejenny.gulimall.ware.entity.WareSkuEntity;
 import com.littlejenny.gulimall.ware.service.WareSkuService;
@@ -32,7 +30,17 @@ import com.littlejenny.common.utils.R;
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
-
+    @RequestMapping("/subTractStock")
+    R subTractStock(@RequestBody List<SubtractStockTO> subtarctStockTOS){
+        try {
+            wareSkuService.subTractStock(subtarctStockTOS);
+            return R.ok();
+        } catch (NoWareCanHandleSkuException e) {
+            String msg = ",錯誤商品編號為:" + e.getSkuId();
+            e.printStackTrace();
+            return R.error(BizCodeEnum.NOWARECANHANDLE_EXCEPTION.getCode(),BizCodeEnum.NOWARECANHANDLE_EXCEPTION.getMessage()+msg);
+        }
+    }
     @RequestMapping("/hasStockById")
     public R hasStockByIds(@RequestBody List<Long> skuIds){
         Map<Long, HasStockTO> map = wareSkuService.hasStockByIds(skuIds);

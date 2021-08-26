@@ -36,7 +36,12 @@ public class SpuBoundsController {
         return R.ok().put("page", page);
     }
 
+    @RequestMapping("/info/sku/{skuId}")
+    public R infoBySkuId(@PathVariable("skuId") Long skuId){
+        SpuBoundsEntity spuBounds = spuBoundsService.getBySkuId(skuId);
 
+        return R.ok().put("spuBounds", spuBounds);
+    }
     /**
      * 信息
      */
