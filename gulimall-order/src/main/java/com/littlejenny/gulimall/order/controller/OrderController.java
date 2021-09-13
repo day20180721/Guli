@@ -1,14 +1,14 @@
 package com.littlejenny.gulimall.order.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.littlejenny.gulimall.order.vo.orders.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import com.littlejenny.gulimall.order.entity.OrderEntity;
 import com.littlejenny.gulimall.order.service.OrderService;
@@ -30,9 +30,6 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    /**
-     * 列表
-     */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = orderService.queryPage(params);
@@ -40,7 +37,11 @@ public class OrderController {
         return R.ok().put("page", page);
     }
 
-
+    @RequestMapping("/info/sn/{sn}")
+    public R infoBySn(@PathVariable("sn") String sn){
+        OrderEntity order = orderService.getBySn(sn);
+        return R.ok().put("data", order);
+    }
     /**
      * 信息
      */

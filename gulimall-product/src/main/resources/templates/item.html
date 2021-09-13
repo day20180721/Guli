@@ -616,8 +616,12 @@
                         </div>
                     </div>
                     <div class="box-btns-two">
-                        <a id="buy" th:attr="skuId=${item.skuInfoEntity.skuId}">
+
+                        <a id="buy" th:attr="skuId=${item.skuInfoEntity.skuId}" th:if="${item.secInfo == null}">
                             立即预约
+                        </a>
+                        <a id="buySec" th:attr="skuId=${item.skuInfoEntity.skuId},sessionId=${item.secInfo.promotionSessionId},token=${item.secInfo.token}" th:if="${item.secInfo != null}">
+                            立即搶購
                         </a>
                     </div>
                     <div class="box-btns-three">
@@ -1230,6 +1234,19 @@
         let count = $("#itemCount").val();
         let skuId = $(this).attr("skuId");
         location = "http://cart.gulimall.com/cart?skuId=" + skuId+"&count="+count;
+    });
+    $("#buySec").click(function (){
+        let user =  [[${session.user != null}]]
+        if(user){
+            let count = $("#itemCount").val();
+            let skuId = $(this).attr("skuId");
+            let sessionId = $(this).attr("sessionId");
+            let token = $(this).attr("token");
+            location = "http://seckill.gulimall.com/seckill?skuId=" + skuId+"&count="+count+"&sessionId="+sessionId+"&token="+token;
+        }else {
+            alert("請先登錄");
+        }
+        return false;
     });
 </script>
 </html>

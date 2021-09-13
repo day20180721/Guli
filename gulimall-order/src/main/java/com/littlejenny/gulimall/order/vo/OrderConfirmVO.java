@@ -1,7 +1,6 @@
 package com.littlejenny.gulimall.order.vo;
 
-import com.littlejenny.common.to.HasStockTO;
-import lombok.Data;
+import com.littlejenny.common.to.ware.HasStockTO;
 
 import java.math.BigDecimal;
 import java.util.List;

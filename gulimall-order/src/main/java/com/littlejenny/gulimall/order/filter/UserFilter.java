@@ -3,9 +3,10 @@ package com.littlejenny.gulimall.order.filter;
 import com.alibaba.fastjson.JSON;
 import com.littlejenny.common.constant.CartConstants;
 import com.littlejenny.common.entity.VisitorLoginState;
-import com.littlejenny.common.to.MemberEntityTO;
+import com.littlejenny.common.to.member.MemberEntityTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,18 @@ public class UserFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequestrequest =(HttpServletRequest) request;
+
+        String requestURI = httpServletRequestrequest.getRequestURI();
+        boolean match = new AntPathMatcher().match("/order/order/info/sn/**", requestURI);
+        boolean match1 = new AntPathMatcher().match("/paypal/**", requestURI);
+
+        if(match || match1){
+            System.out.println("放行調用");
+            chain.doFilter(request,response);
+            return;
+        }
+
+
         HttpSession session = httpServletRequestrequest.getSession();
         Object o = session.getAttribute(CartConstants.USERKEY);
         String userJson = JSON.toJSONString(o);

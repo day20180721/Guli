@@ -1,5 +1,7 @@
 package com.littlejenny.gulimall.ware.service.impl;
 
+import com.littlejenny.gulimall.ware.feign.RabbitMqFeignService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -15,7 +17,8 @@ import com.littlejenny.gulimall.ware.service.WareOrderTaskService;
 
 @Service("wareOrderTaskService")
 public class WareOrderTaskServiceImpl extends ServiceImpl<WareOrderTaskDao, WareOrderTaskEntity> implements WareOrderTaskService {
-
+    @Autowired
+    private RabbitMqFeignService rabbit;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<WareOrderTaskEntity> page = this.page(
@@ -26,4 +29,14 @@ public class WareOrderTaskServiceImpl extends ServiceImpl<WareOrderTaskDao, Ware
         return new PageUtils(page);
     }
 
+    @Override
+    public void saveDetail(WareOrderTaskEntity wareOrderTask) {
+        this.save(wareOrderTask);
+        //調用RabbitMQ傳送創建訂單訊息
+        try{
+            rabbit.task(wareOrderTask);
+        }catch (Exception e){
+            //網路錯誤，重新傳輸或是保存到SQL供後續檢查機制補償
+        }
+    }
 }

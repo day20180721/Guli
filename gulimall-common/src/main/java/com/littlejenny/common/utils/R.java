@@ -46,8 +46,12 @@ public class R extends HashMap<String, Object> {
 		put("code", 0);
 		put("msg", "success");
 	}
+
 	public Integer getCode(){
 		return (Integer)get("code");
+	}
+	public Boolean isSuccess(){
+		return get("code") != null && (Integer)get("code") == 0;
 	}
 	public String getMsg(){return (String)get("msg");}
 	public static R error() {

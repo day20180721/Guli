@@ -4,23 +4,24 @@ import com.littlejenny.common.exception.BizCodeEnum;
 import com.littlejenny.common.exception.OrderTokenInvalidException;
 import com.littlejenny.common.exception.RemoteServiceException;
 import com.littlejenny.gulimall.order.entity.OrderEntity;
+import com.littlejenny.gulimall.order.service.OrderService;
 import com.littlejenny.gulimall.order.service.TradeService;
-import com.littlejenny.gulimall.order.service.impl.OrderServiceImpl;
 import com.littlejenny.gulimall.order.vo.OrderConfirmVO;
 import com.littlejenny.gulimall.order.vo.SubmitOrderRespVO;
 import com.littlejenny.gulimall.order.vo.SubmitOrderVO;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.PaymentExecution;
+import com.paypal.base.rest.PayPalRESTException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.concurrent.ExecutionException;
 
@@ -38,8 +39,6 @@ public class TradeControll {
     }
     @PostMapping("/submitOrder")
     public String submitOrder(SubmitOrderVO vo, HttpSession session){
-
-
         SubmitOrderRespVO resp = new SubmitOrderRespVO();
         try {
             resp =  tradeService.submitOrder(vo);
@@ -61,37 +60,24 @@ public class TradeControll {
         session.setAttribute("resp",resp);
         return "redirect:http://order.gulimall.com/pay.html";
     }
-    @Autowired
-    private OrderServiceImpl orderService;
-    /*
-    @GetMapping("/t")
-    public void t(){
-        c();
-    }
-    @Transactional
-    public void c(){
-        OrderEntity e = new OrderEntity();
-        e.setMemberId(1L);
-        orderService.save(e);
-        a();
-        b();
 
-
+    @GetMapping("/paypal/{orderSn}")
+    public String payByPaypal(@PathVariable("orderSn")String sn){
+        String approveUrl =  tradeService.payByPaypal(sn);
+        if("".equals(approveUrl)){
+            log.error("payByPaypal 方法失效");
+        }
+        return "redirect:" + approveUrl;
     }
-    @Transactional
-    public void a(){
-        OrderEntity e = new OrderEntity();
-        e.setMemberId(2L);
-        orderService.save(e);
-        int i = 10 / 0;
+    @ResponseBody
+    @GetMapping("/paypal/cancle")
+    public String cancle(HttpServletRequest request) {
+        System.out.println(request.getParameterMap());
+        return "cancle";
     }
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void b(){
-        OrderEntity e = new OrderEntity();
-        e.setMemberId(3L);
-        orderService.save(e);
-        int i = 10 / 0;
+    @GetMapping("/paypal/process")
+    public String proccess(HttpServletRequest request,@RequestParam("paymentId")String paymentId,@RequestParam("PayerID")String PayerID) {
+        tradeService.processPaypal(paymentId,PayerID);
+        return "redirect:http://order.gulimall.com/orders.html";
     }
-
-     */
 }

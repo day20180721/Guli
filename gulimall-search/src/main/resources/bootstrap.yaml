@@ -16,6 +16,10 @@ Spring:
           data-id: Redis.yaml
           group: dev
           refresh: true
+        extension-configs[3]:
+          data-id: Sentinel.yaml
+          group: dev
+          refresh: true
 spring:
   session:
     store-type: redis

@@ -52,6 +52,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>rest-api-sdk</artifactId>
+            <version>LATEST</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

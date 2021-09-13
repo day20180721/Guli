@@ -3,6 +3,7 @@ package com.littlejenny.gulimall.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.littlejenny.common.to.ware.WareOrderTaskTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,14 +51,17 @@ public class WareOrderTaskController {
 
         return R.ok().put("wareOrderTask", wareOrderTask);
     }
-
+    @RequestMapping("/saveDetail")
+    public R saveDetail(@RequestBody WareOrderTaskEntity wareOrderTask){
+        wareOrderTaskService.saveDetail(wareOrderTask);
+        return R.ok();
+    }
     /**
      * 保存
      */
     @RequestMapping("/save")
     public R save(@RequestBody WareOrderTaskEntity wareOrderTask){
 		wareOrderTaskService.save(wareOrderTask);
-
         return R.ok();
     }
 

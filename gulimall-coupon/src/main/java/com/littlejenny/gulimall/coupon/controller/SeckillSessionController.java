@@ -3,12 +3,9 @@ package com.littlejenny.gulimall.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.littlejenny.common.to.seckill.SeckillSessionAndSkuTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.littlejenny.gulimall.coupon.entity.SeckillSessionEntity;
 import com.littlejenny.gulimall.coupon.service.SeckillSessionService;
@@ -30,6 +27,11 @@ public class SeckillSessionController {
     @Autowired
     private SeckillSessionService seckillSessionService;
 
+    @GetMapping("/threedaysessions")
+    public R getThreeDaySessionFromToday(){
+        SeckillSessionAndSkuTO to = seckillSessionService.getThreeDaySessionFromToday();
+        return  R.ok().setData(to);
+    }
     /**
      * 列表
      */

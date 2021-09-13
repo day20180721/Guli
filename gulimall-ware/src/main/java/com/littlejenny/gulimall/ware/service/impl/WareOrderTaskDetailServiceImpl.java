@@ -1,6 +1,8 @@
 package com.littlejenny.gulimall.ware.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,6 +26,14 @@ public class WareOrderTaskDetailServiceImpl extends ServiceImpl<WareOrderTaskDet
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<WareOrderTaskDetailEntity> listBySn(String orderSn) {
+        QueryWrapper<WareOrderTaskDetailEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("order_sn",orderSn);
+        List<WareOrderTaskDetailEntity> list = list(wrapper);
+        return list;
     }
 
 }

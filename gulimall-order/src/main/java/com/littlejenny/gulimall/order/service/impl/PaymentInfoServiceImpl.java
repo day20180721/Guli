@@ -26,4 +26,12 @@ public class PaymentInfoServiceImpl extends ServiceImpl<PaymentInfoDao, PaymentI
         return new PageUtils(page);
     }
 
+    @Override
+    public PaymentInfoEntity getByPayID(String paymentId) {
+        QueryWrapper<PaymentInfoEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("payment_id",paymentId);
+        PaymentInfoEntity entity = this.baseMapper.selectOne(wrapper);
+        return entity;
+    }
+
 }

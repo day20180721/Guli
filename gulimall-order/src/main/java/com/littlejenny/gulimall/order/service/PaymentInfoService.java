@@ -16,5 +16,7 @@ import java.util.Map;
 public interface PaymentInfoService extends IService<PaymentInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PaymentInfoEntity getByPayID(String paymentId);
 }
 

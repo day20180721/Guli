@@ -12,4 +12,8 @@ public interface TradeService {
     OrderConfirmVO trade() throws ExecutionException, InterruptedException;
 
     SubmitOrderRespVO submitOrder(SubmitOrderVO vo)throws RuntimeException;
+
+    String payByPaypal(String sn);
+
+    void processPaypal(String paymentId, String payerID);
 }

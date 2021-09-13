@@ -10,8 +10,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @EnableRedisHttpSession
 @EnableRabbit
-@EnableDiscoveryClient
 @EnableFeignClients
+@EnableDiscoveryClient
 @SpringBootApplication
 public class GuliOrder9000Main {
     public static void main(String[] args) {

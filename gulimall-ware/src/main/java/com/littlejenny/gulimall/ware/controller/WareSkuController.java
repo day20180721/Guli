@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.littlejenny.common.exception.BizCodeEnum;
-import com.littlejenny.common.to.HasStockTO;
+import com.littlejenny.common.to.ware.HasStockTO;
 import com.littlejenny.common.exception.ware.NoWareCanHandleSkuException;
-import com.littlejenny.gulimall.ware.to.SubtractStockTO;
+import com.littlejenny.gulimall.ware.to.SubtarctStockTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +30,10 @@ import com.littlejenny.common.utils.R;
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
-    @RequestMapping("/subTractStock")
-    R subTractStock(@RequestBody List<SubtractStockTO> subtarctStockTOS){
+    @RequestMapping("/lockStocks")
+    R subTractStock(@RequestBody SubtarctStockTO subtarctStockTO){
         try {
-            wareSkuService.subTractStock(subtarctStockTOS);
+            wareSkuService.lockStocks(subtarctStockTO);
             return R.ok();
         } catch (NoWareCanHandleSkuException e) {
             String msg = ",錯誤商品編號為:" + e.getSkuId();

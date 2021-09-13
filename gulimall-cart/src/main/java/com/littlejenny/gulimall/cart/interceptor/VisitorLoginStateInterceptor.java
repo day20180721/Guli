@@ -1,6 +1,6 @@
 package com.littlejenny.gulimall.cart.interceptor;
 import com.alibaba.fastjson.JSON;
-import com.littlejenny.common.to.MemberEntityTO;
+import com.littlejenny.common.to.member.MemberEntityTO;
 import com.littlejenny.common.constant.CartConstants;
 import com.littlejenny.common.entity.VisitorLoginState;
 import com.littlejenny.common.utils.WebUtils;

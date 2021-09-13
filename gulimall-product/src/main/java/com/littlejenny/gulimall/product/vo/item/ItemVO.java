@@ -1,5 +1,6 @@
 package com.littlejenny.gulimall.product.vo.item;
 
+import com.littlejenny.common.to.seckill.SeckillSkuRelationTO;
 import com.littlejenny.gulimall.product.entity.*;
 import lombok.Data;
 
@@ -16,4 +17,6 @@ public class ItemVO {
     private List<SpuAttrGroupVO> spuAttrGroupVOS;
 
     private List<SkuAttrGroupVO> skuAttrGroupVOS;
+
+    private SeckillSkuRelationTO secInfo;
 }

@@ -12,7 +12,7 @@
         <img src="/static/order/pay/img\logo1.jpg" alt=""><span class="bank">收银台</span>
         <ul>
             <li>
-                <span th:if="${session.user != null}" th:text="${session.user.username}" >尚硅谷</span>
+                <span th:if="${session.user != null}" th:text="${session.user.username}">尚硅谷</span>
                 <span th:if="${session.user != null}">退出</span>
                 <a th:if="${session.user == null}" href="http://auth.gulimall.com/login.html">你好，请登录</a>
             </li>
@@ -101,7 +101,8 @@
     <div class="Jd_footer">
         <ul>
             <li>
-                <img src="/static/order/pay/img\weixin.png" alt="">微信支付
+                <img src="/static/order/pay/img\weixin.png" alt="">
+                <a th:href="'/paypal/' + ${session.resp.order.orderSn} + '/'">Paypal</a>
             </li>
             <li>
                 <img src="/static/order/pay/img\zhifubao.png" style="weight:auto;height:30px;" alt="">支付宝

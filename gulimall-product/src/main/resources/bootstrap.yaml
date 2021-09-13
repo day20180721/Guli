@@ -32,10 +32,15 @@ Spring:
           data-id: ThreadPool.yaml
           group: dev
           refresh: true
+        extension-configs[7]:
+          data-id: Sentinel.yaml
+          group: dev
+          refresh: true
 
 spring:
   session:
     store-type: redis
+
 
 
 

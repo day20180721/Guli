@@ -39,12 +39,12 @@ public class RegistServiceImpl {
                 throw new SMSCDException();
             }
         }
-        //TODO 紀錄此MSG到Redis
+        //紀錄此MSG到Redis
         redis.opsForValue().set(AuthConstants.REDIS_PREFIX + phone,msg + "_" + currentTimeMillis,AuthConstants.SMS_TIMEOUT, TimeUnit.MILLISECONDS);
         //TODO 調用簡訊服務
         R r = thridPartFeignService.sendSms(phone, msg);
         if(r.getCode() != 0){
-            //TODO 拋出相關異常
+            //拋出相關異常
         }
     }
 }

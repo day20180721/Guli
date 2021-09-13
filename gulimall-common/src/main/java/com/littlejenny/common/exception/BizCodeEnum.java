@@ -10,6 +10,7 @@ package com.littlejenny.common.exception;
  */
 
 public enum BizCodeEnum {
+    TOOMUCH_REQUEST_EXCEPTION(880,"請求次數過多"),
     UNKNOW_EXCEPTION(1000,"系統未知異常"),
     VALID_EXCEPTION(1001,"參數格式驗證失敗"),
     REMOTESERVICE_EXCEPTION(1002,"遠程服務調用失敗"),

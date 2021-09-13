@@ -20,6 +20,11 @@
         SET stock_locked = stock_locked + #{quantity}
         WHERE sku_id = #{skuId} AND ware_id = #{wareId} AND stock - stock_locked >= #{quantity};
     </update>
+    <update id="unlockStock">
+        UPDATE gulimall_wms.wms_ware_sku
+        SET stock_locked = stock_locked - #{quantity}
+        WHERE sku_id = #{skuId} AND ware_id = #{wareId} AND stock - stock_locked >= #{quantity};
+    </update>
     <select id="hasStockById" resultType="java.lang.Integer">
         SELECT sum(stock - stock_locked) FROM gulimall_wms.wms_ware_sku where sku_id = #{skuId};
     </select>

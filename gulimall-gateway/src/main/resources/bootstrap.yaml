@@ -16,6 +16,10 @@ Spring:
           data-id: Router.yaml
           group: dev
           refresh: true
+        extension-configs[3]:
+          data-id: Sentinel.yaml
+          group: dev
+          refresh: true
 
 
 

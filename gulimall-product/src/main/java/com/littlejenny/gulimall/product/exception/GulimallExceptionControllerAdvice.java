@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Slf4j
 //下面為ControllerAdvice + responseBody合體
-@RestControllerAdvice(basePackages = {"com.littlejenny.gulimall.product.app","com.littlejenny.gulimall.product.web"})
+//@RestControllerAdvice(basePackages = {"com.littlejenny.gulimall.product.app","com.littlejenny.gulimall.product.web"})
 //@ControllerAdvice(basePackages = "littlejenny.gulimall.auth.controller")
 public class GulimallExceptionControllerAdvice {
     //可以返回modelAndView

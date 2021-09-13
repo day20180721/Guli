@@ -1,6 +1,8 @@
 package com.littlejenny.gulimall.order.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,6 +26,14 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<OrderItemEntity> getBySn(String orderSn) {
+        QueryWrapper<OrderItemEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("order_sn",orderSn);
+        List<OrderItemEntity> entities = list(wrapper);
+        return entities;
     }
 
 }

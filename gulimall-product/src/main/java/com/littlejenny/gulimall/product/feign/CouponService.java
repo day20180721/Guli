@@ -1,8 +1,8 @@
 package com.littlejenny.gulimall.product.feign;
-import com.littlejenny.common.to.MemberPriceTO;
-import com.littlejenny.common.to.SkufullReductionTO;
-import com.littlejenny.common.to.SkuLadderTO;
-import com.littlejenny.common.to.SpuBoundsTO;
+import com.littlejenny.common.to.coupon.MemberPriceTO;
+import com.littlejenny.common.to.coupon.SkufullReductionTO;
+import com.littlejenny.common.to.coupon.SkuLadderTO;
+import com.littlejenny.common.to.coupon.SpuBoundsTO;
 import com.littlejenny.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;

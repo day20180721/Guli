@@ -84,7 +84,7 @@ public class SearchServiceImpl implements SearchService {
             SearchRespVO.FactorNavVO factorNavVO = new SearchRespVO.FactorNavVO();
             factorNavVO.setName("分類");
             factorNavVO.setValue(param.getCatalog3Id().toString());
-            //TODO 用ID找值 分類:手機
+            //用ID找值 分類:手機
             R r =  productService.catelogInfo(param.getCatalog3Id());
             if(r.getCode() == 0){
                 CategoryTO data = r.getData(new TypeReference<CategoryTO>() {
@@ -105,7 +105,7 @@ public class SearchServiceImpl implements SearchService {
                 for (BrandTO brand : brandTOS) {
                     SearchRespVO.FactorNavVO factorNavVO = new SearchRespVO.FactorNavVO();
                     factorNavVO.setName("品牌");
-                    //TODO 用ID找值 品牌:小米
+                    //用ID找值 品牌:小米
                     factorNavVO.setValue(brand.getName());
 
                     String replace = queryFullStringReplace(param.getQueryFullString(), "brandIDs", brand.getBrandId().toString());
@@ -118,7 +118,7 @@ public class SearchServiceImpl implements SearchService {
                 for (Long brand : param.getBrandIDs()) {
                     SearchRespVO.FactorNavVO factorNavVO = new SearchRespVO.FactorNavVO();
                     factorNavVO.setName("品牌");
-                    //TODO 用ID找值 品牌:小米
+                    //用ID找值 品牌:小米
                     factorNavVO.setValue(brand.toString());
 
                     String replace = queryFullStringReplace(param.getQueryFullString(), "brandIDs", brand.toString());
@@ -165,7 +165,7 @@ public class SearchServiceImpl implements SearchService {
 
                 SearchRespVO.FactorNavVO factorNavVO = new SearchRespVO.FactorNavVO();
                 factorNavVO.setName(attrId);
-                //TODO 用ID找名稱 體積:100
+                //用ID找名稱 體積:100
                 R r =  productService.attrInfo(attrId);
                 if(r.getCode() == 0){
                     AttrTO attrTO = r.getValue("attr", new TypeReference<AttrTO>() {

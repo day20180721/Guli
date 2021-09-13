@@ -1,5 +1,6 @@
 package com.littlejenny.gulimall.order.feign;
 
+import com.littlejenny.common.to.ware.WareOrderTaskTO;
 import com.littlejenny.common.utils.R;
 import com.littlejenny.gulimall.order.to.SubtarctStockTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -14,6 +15,8 @@ import java.util.List;
 public interface WareFeignService {
     @RequestMapping("/ware/waresku/hasStockById")
     R hasStockByIds(@RequestBody List<Long> skuIds); //Map<Long, HasStockTO>
-    @RequestMapping("/ware/waresku/subTractStock")
-    R  subTractStock(@RequestBody List<SubtarctStockTO> subtarctStockTOS);//R.ok()
+    @RequestMapping("/ware/waresku/lockStocks")
+    R lockStocks(@RequestBody SubtarctStockTO subtarctStockTO);//R.ok()
+    @RequestMapping("/ware/wareordertask/saveDetail")
+    R saveTaskTO(@RequestBody WareOrderTaskTO wareOrderTaskTO);//R.ok()
 }

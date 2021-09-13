@@ -1,7 +1,11 @@
 package com.littlejenny.gulimall.product.service.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.littlejenny.common.to.seckill.SeckillSkuRelationTO;
+import com.littlejenny.common.utils.R;
 import com.littlejenny.gulimall.product.entity.SkuImagesEntity;
 import com.littlejenny.gulimall.product.entity.SkuInfoEntity;
+import com.littlejenny.gulimall.product.feign.SeckillFeignService;
 import com.littlejenny.gulimall.product.service.ItemService;
 import com.littlejenny.gulimall.product.vo.item.ItemVO;
 import com.littlejenny.gulimall.product.vo.item.SkuAttrGroupVO;
@@ -26,6 +30,8 @@ public class ItemServiceImpl implements ItemService {
     private SpuInfoDescServiceImpl spuInfoDescService;
     @Autowired
     private ThreadPoolExecutor pool;
+    @Autowired
+    private SeckillFeignService seckillFeignService;
     @Override
     public ItemVO item(Long skuId) throws ExecutionException, InterruptedException {
         ItemVO itemVO = new ItemVO();
@@ -61,7 +67,20 @@ public class ItemServiceImpl implements ItemService {
             List<SkuImagesEntity> skuImagesEntityList = skuImagesService.getBySkuId(skuId);
             itemVO.setSkuImagesEntities(skuImagesEntityList);
         }, pool);
-        CompletableFuture.allOf(setSkuAttrGroupVOS,setSpuAttrGroupVOS,setSpuInfoDescEntities,setSkuImagesEntities).get();
+
+        CompletableFuture<Void> isOnlineBySku = CompletableFuture.runAsync(() -> {
+            //判斷是否為當前搶購項目，如果是則加上Token、場次號、開始結束時間
+            R onlineBySku = seckillFeignService.isOnlineBySku(skuId);
+            if(onlineBySku.getCode() != 0){
+                System.out.println(onlineBySku.getMsg());
+            }else {
+                SeckillSkuRelationTO relationTO = onlineBySku.getData(new TypeReference<SeckillSkuRelationTO>() {
+                });
+                itemVO.setSecInfo(relationTO);
+            }
+        }, pool);
+
+        CompletableFuture.allOf(setSkuAttrGroupVOS,setSpuAttrGroupVOS,setSpuInfoDescEntities,setSkuImagesEntities,isOnlineBySku).get();
         return itemVO;
     }
 }

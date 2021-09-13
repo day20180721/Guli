@@ -16,6 +16,7 @@
         <result property="confirmTime" column="confirm_time"/>
         <result property="callbackContent" column="callback_content"/>
         <result property="callbackTime" column="callback_time"/>
+        <result property="paymentId" column="payment_id"></result>
     </resultMap>
 
 

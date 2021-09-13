@@ -2,8 +2,12 @@ package com.littlejenny.gulimall.product.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.littlejenny.common.constant.ProductConstants;
-import com.littlejenny.common.to.*;
+import com.littlejenny.common.to.coupon.MemberPriceTO;
 import com.littlejenny.common.to.es.SkuEsModel;
+import com.littlejenny.common.to.coupon.SkuLadderTO;
+import com.littlejenny.common.to.coupon.SkufullReductionTO;
+import com.littlejenny.common.to.coupon.SpuBoundsTO;
+import com.littlejenny.common.to.ware.HasStockTO;
 import com.littlejenny.common.utils.R;
 import com.littlejenny.common.utils.StringUitls;
 import com.littlejenny.gulimall.product.entity.*;
@@ -237,16 +241,16 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Transactional
     @Override
     public void upSpuById(Long spuId) {
-        //TODO 找出該SPU所對應的所有SKU
+        //找出該SPU所對應的所有SKU
         QueryWrapper<SkuInfoEntity> skuWrapper = new QueryWrapper<>();
         skuWrapper.eq("spu_id",spuId);
         List<SkuInfoEntity> skuInfoEntities = skuInfoService.list(skuWrapper);
-        //TODO 在外面先查好Sku所有的庫存，所以要先拿出Sku的ID
+        //在外面先查好Sku所有的庫存，所以要先拿出Sku的ID
         List<Long> skuIdlist = skuInfoEntities.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
         R r = wareService.hasStockByIds(skuIdlist);
-        TypeReference<Map<Long,HasStockTO>> toTypeReference = new TypeReference<Map<Long,HasStockTO>>() {};
+        TypeReference<Map<Long, HasStockTO>> toTypeReference = new TypeReference<Map<Long,HasStockTO>>() {};
         Map<Long,HasStockTO> stockData = r.getData(toTypeReference);
-        //TODO 查SPU基礎屬性，並且要過濾掉設定為不能被查找的屬性
+        //查SPU基礎屬性，並且要過濾掉設定為不能被查找的屬性
         List<ProductAttrValueEntity> attrsBySpuId = productAttrValueService.getAttrsBySpuId(spuId);
         List<Long> unFilterAttrsIds = attrsBySpuId.stream().map(ProductAttrValueEntity::getAttrId).collect(Collectors.toList());
         List<Long> filterAttrsIds = attrService.filterSearchable(unFilterAttrsIds);
@@ -258,35 +262,35 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return attr;
         }).collect(Collectors.toList());
 
-        //TODO 填充SkuElaticSearch所需數據
+        //填充SkuElaticSearch所需數據
         List<SkuEsModel> skuEsModels = skuInfoEntities.stream().map(item -> {
             SkuEsModel skuEsModel = new SkuEsModel();
             BeanUtils.copyProperties(item, skuEsModel);
             skuEsModel.setSkuImg(item.getSkuDefaultImg());//因為名稱elastic裡面的欄位名稱不同所以要自己弄
             skuEsModel.setSkuPrice(item.getPrice());//同上
-            //TODO 根據CatlogID及brandID查名稱
+            //根據CatlogID及brandID查名稱
             CategoryEntity category = categoryService.getById(item.getCatalogId());
             skuEsModel.setCatalogName(category.getName());
             BrandEntity brand = brandService.getById(item.getBrandId());
             skuEsModel.setBrandName(brand.getName());
-            //TODO 設置BrandImage
+            //設置BrandImage
 
-            //TODO 設置熱點，目前沒有服務所以預設0
+            //設置熱點，目前沒有服務所以預設0
             skuEsModel.setHotScore(0L);
-            //TODO 查詢是否有庫存
+            //查詢是否有庫存
             //因為要查八次，所以預先在迴圈外先查好
             //對方服務一定會傳TrueOrFalse，所以不判斷null
             HasStockTO hasStockTO = stockData.get(item.getSkuId());
             skuEsModel.setHasStock(hasStockTO.getHasStock());
-            //TODO 設置基礎SPU屬性
+            //設置基礎SPU屬性
             //所以在外面請求一次後大家共用
             skuEsModel.setAttrs(attrs);
             return skuEsModel;
         }).collect(Collectors.toList());
-        //TODO 傳送給elasticSearch
+        //傳送給elasticSearch
         R elasticResult = elasticService.save(skuEsModels);
         if(elasticResult.getCode() == 0){
-            //TODO 將數據庫內的publish_status改成上架
+            //將數據庫內的publish_status改成上架
             spuInfoDao.updatePublishStatus(spuId, ProductConstants.SpuPublishStatus.ON.getCode());
         }
     }

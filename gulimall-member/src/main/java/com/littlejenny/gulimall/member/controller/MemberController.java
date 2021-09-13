@@ -32,7 +32,7 @@ public class MemberController {
     private MemberService memberService;
     @PostMapping("/regist")
     public R regist(@RequestBody RegistAccountVO vo){
-        //TODO 判斷註冊是否成功，可能帳號會一樣
+        //判斷註冊是否成功，可能帳號會一樣
         try {
             MemberEntity entity = memberService.regist(vo);
             return R.ok().setData(entity);

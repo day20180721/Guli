@@ -2,15 +2,14 @@ package com.littlejenny.gulimall.order.interceptor;
 import com.alibaba.fastjson.JSON;
 import com.littlejenny.common.constant.CartConstants;
 import com.littlejenny.common.entity.VisitorLoginState;
-import com.littlejenny.common.to.MemberEntityTO;
+import com.littlejenny.common.to.member.MemberEntityTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.UUID;
+
 @Slf4j
 public class UserInterceptor implements HandlerInterceptor {
     public static ThreadLocal<VisitorLoginState> visitorLoginState = new ThreadLocal<>();

@@ -3,7 +3,9 @@ package com.littlejenny.gulimall.order.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.littlejenny.common.utils.PageUtils;
 import com.littlejenny.gulimall.order.entity.OrderEntity;
+import com.littlejenny.gulimall.order.vo.orders.OrderVO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,9 @@ import java.util.Map;
 public interface OrderService extends IService<OrderEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    OrderEntity getBySn(String orderSn);
+
+    List<OrderVO> queryPageWithItem(String pageNo, Map<String, Object> params);
 }
 

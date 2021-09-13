@@ -2,8 +2,10 @@ package com.littlejenny.gulimall.order.to;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class SubtarctStockTO {
-    private Long skuId;
-    private Integer quantity;
+    private String orderSn;
+    List<SubtractStockDetailTO> detailTOList;
 }
