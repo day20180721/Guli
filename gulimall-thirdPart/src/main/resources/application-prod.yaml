@@ -1,0 +1,31 @@
+spring:
+  cloud:
+    sentinel:
+      transport:
+        dashboard: gulimall-sentinel.guli:8858
+        port: 8719
+    nacos:
+      discovery:
+        server-addr: gulimall-nacos.guli:8848
+        #namespace: b9b147f5-e7a4-4adc-b31f-4deade3fbc69
+        group: prod
+  application:
+    name: thirdPart
+server:
+  port: 8080
+logging:
+  level:
+    com.littlejenny.gulimall: debug
+
+azure:
+  storage:
+    baseblobUrl: https://gulimall.blob.core.windows.net/
+    signature: sv=2020-08-04&ss=b&srt=sco&sp=rwdlactfx&se=2022-03-11T21:49:52Z&st=2021-07-31T13:49:52Z&spr=https&sig=A%2B69qOhsktxEwk02dEwlaoNsFPNI4x6UyuJwywN4ah0%3D
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true

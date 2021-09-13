@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: auth
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false
+  redis:
+    host: gulimall-redis.guli
+    port: 6379
+  cloud:
+    nacos:
+      discovery:
+        server-addr: gulimall-nacos.guli:8848
+        group: prod
+    sentinel:
+      transport:
+        dashboard: gulimall-sentinel.guli:8858
+        port: 8719
+server:
+  port: 8080
+logging:
+  level:
+    com.littlejenny.gulimall: debug
+
+googleapi:
+  clientId: 701671546682-eb28beo8gftthnfpiv65ttspmq5h9d8d.apps.googleusercontent.com
+  clientSecret: LISRpTHOK-QNuGASn-aZ78xi
+  grantType: authorization_code
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true
+
+
+
+
+
+
+
+
+

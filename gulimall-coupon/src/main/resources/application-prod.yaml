@@ -1,0 +1,38 @@
+server:
+  port: 8080
+logging:
+  level:
+    com.littlejenny.gulimall: debug
+spring:
+  application:
+    name: coupon
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://gulimall-mysql-master.guli:3306/gulimall_sms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B9
+    username: root
+    password: 123456
+  cloud:
+    sentinel:
+      transport:
+        dashboard: gulimall-sentinel.guli:8858
+        port: 8719
+    nacos:
+      discovery:
+        server-addr: gulimall-nacos.guli:8848
+        #namespace: b9b147f5-e7a4-4adc-b31f-4deade3fbc69
+        group: prod
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true

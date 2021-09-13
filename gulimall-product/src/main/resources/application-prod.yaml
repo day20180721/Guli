@@ -1,0 +1,57 @@
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 8080
+logging:
+  level:
+    com.littlejenny.gulimall: debug
+thread:
+  core: 10
+  addition: 200
+  leaveTime: 60000
+  blockingQueue: 100000
+spring:
+  application:
+    name: product
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+    thymeleaf:
+      cache: false
+  redis:
+    host: gulimall-redis.guli
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://gulimall-mysql-master.guli:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: gulimall-nacos.guli:8848
+        #namespace: 1047922a-261d-4df4-9875-abc4e3a3cc53
+        group: prod
+    sentinel:
+      transport:
+        dashboard: gulimall-sentinel.guli:8858
+        port: 8719
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+      #      key-prefix: CACHE_
+      #      use-key-prefix: true
+      #如果沒有設定key-prefix 就會用 value = {"category"} 的分區名稱
+      #寫了則覆蓋
+      cache-null-values: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true

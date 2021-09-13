@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: cart
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+    thymeleaf:
+      cache: false
+  redis:
+    host: gulimall-redis.guli
+    port: 6379
+  cloud:
+    sentinel:
+      transport:
+        dashboard: gulimall-sentinel.guli:8858
+        port: 8719
+    nacos:
+      discovery:
+        server-addr: gulimall-nacos.guli:8848
+        #namespace: 1047922a-261d-4df4-9875-abc4e3a3cc53
+        group: prod
+server:
+  port: 8080
+logging:
+  level:
+    com.littlejenny.gulimall: debug
+thread:
+  core: 10
+  addition: 200
+  leaveTime: 60000
+  blockingQueue: 100000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true

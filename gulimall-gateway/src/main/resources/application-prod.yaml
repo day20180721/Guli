@@ -1,0 +1,96 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  cloud:
+    sentinel:
+      transport:
+        dashboard: gulimall-sentinel.guli:8858
+        port: 8719
+      nacos:
+        discovery:
+          server-addr: gulimall-nacos.guli:8848
+          #namespace: b9b147f5-e7a4-4adc-b31f-4deade3fbc69
+          group: prod
+    gateway:
+      enabled: true
+      routes:
+        - id: product-route
+          uri: lb://product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<remaining>.*), /$\{remaining}
+        - id: thirdPart-route
+          uri: lb://thirdPart
+          predicates:
+            - Path=/api/thirdPart/**
+          filters:
+            - RewritePath=/api/(?<remaining>.*), /$\{remaining}
+        - id: member-route
+          uri: lb://member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<remaining>.*), /$\{remaining}
+        - id: coupon-route
+          uri: lb://coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/(?<remaining>.*), /$\{remaining}
+        - id: ware-route
+          uri: lb://ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<remaining>.*), /$\{remaining}
+        - id: order-route
+          uri: lb://order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/(?<remaining>.*), /$\{remaining}
+        - id: renrenfast
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<remaining>.*), /renren-fast/$\{remaining}
+        - id: gulimall_search_route
+          uri: lb://search
+          predicates:
+            - Host=search.gulimall.com
+        - id: gulimall_item_route
+          uri: lb://product
+          predicates:
+            - Host=item.gulimall.com
+        - id: gulimall_auth_route
+          uri: lb://auth
+          predicates:
+            - Host=auth.gulimall.com
+        - id: gulimall_cart_route
+          uri: lb://cart
+          predicates:
+            - Host=cart.gulimall.com
+        - id: gulimall_order_route
+          uri: lb://order
+          predicates:
+            - Host=order.gulimall.com
+        - id: gulimall_seckill_route
+          uri: lb://seckill
+          predicates:
+            - Host=seckill.gulimall.com
+        - id: gulimall_host_route
+          uri: lb://product
+          predicates:
+            - Host=gulimall.com
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+

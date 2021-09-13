@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: order
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+  cloud:
+    nacos:
+      sentinel:
+        transport:
+          dashboard: gulimall-sentinel.guli:8858
+          port: 8719
+      discovery:
+        server-addr: gulimall-nacos.guli:8848
+        #namespace: b9b147f5-e7a4-4adc-b31f-4deade3fbc69
+        group: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://gulimall-master-master.guli:3306/gulimall_oms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  rabbitmq:
+    host: gulimall-rabbitmq.guli
+    publisher-returns: true
+    publisher-confirms: true
+    template:
+      mandatory: true
+    listener:
+      direct:
+        acknowledge-mode: manual
+  redis:
+    host: gulimall-redis.guli
+    port: 6379
+server:
+  port: 8080
+logging:
+  level:
+    com.littlejenny.gulimall: debug
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+thread:
+  core: 10
+  addition: 200
+  leaveTime: 60000
+  blockingQueue: 100000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+feign:
+  sentinel:
+    enabled: true

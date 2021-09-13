@@ -24,7 +24,7 @@
         <module>gulimall-auth</module>
         <module>gulimall-cart</module>
         <module>gulimall-rabbitmq</module>
-        <module>gulimall-seckill2</module>
+        <module>gulimall-seckill</module>
     </modules>
 
     <properties>
