@@ -32,7 +32,6 @@ spring:
     nacos:
       discovery:
         server-addr: gulimall-nacos.guli:8848
-        #namespace: 1047922a-261d-4df4-9875-abc4e3a3cc53
         group: prod
     sentinel:
       transport:
@@ -42,10 +41,6 @@ spring:
     type: redis
     redis:
       time-to-live: 60000
-      #      key-prefix: CACHE_
-      #      use-key-prefix: true
-      #如果沒有設定key-prefix 就會用 value = {"category"} 的分區名稱
-      #寫了則覆蓋
       cache-null-values: true
 management:
   endpoints:

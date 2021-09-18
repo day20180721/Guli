@@ -8,11 +8,10 @@ spring:
       transport:
         dashboard: gulimall-sentinel.guli:8858
         port: 8719
-      nacos:
-        discovery:
-          server-addr: gulimall-nacos.guli:8848
-          #namespace: b9b147f5-e7a4-4adc-b31f-4deade3fbc69
-          group: prod
+    nacos:
+      discovery:
+        server-addr: gulimall-nacos.guli:8848
+        group: prod
     gateway:
       enabled: true
       routes:
