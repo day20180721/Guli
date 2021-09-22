@@ -18,6 +18,8 @@ spring:
         server-addr: gulimall-nacos.guli:8848
         #namespace: 1047922a-261d-4df4-9875-abc4e3a3cc53
         group: prod
+      config:
+        enabled: false
 server:
   port: 8080
 logging:

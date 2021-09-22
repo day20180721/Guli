@@ -9,9 +9,12 @@ spring:
         dashboard: gulimall-sentinel.guli:8858
         port: 8719
     nacos:
+      config:
+        enabled: false
       discovery:
         server-addr: gulimall-nacos.guli:8848
         group: prod
+        enabled: true
     gateway:
       enabled: true
       routes:

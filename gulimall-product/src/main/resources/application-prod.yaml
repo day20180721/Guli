@@ -33,6 +33,8 @@ spring:
       discovery:
         server-addr: gulimall-nacos.guli:8848
         group: prod
+      config:
+        enabled: false
     sentinel:
       transport:
         dashboard: gulimall-sentinel.guli:8858

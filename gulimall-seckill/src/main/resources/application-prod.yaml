@@ -17,6 +17,8 @@ spring:
     port: 6379
   cloud:
     nacos:
+      config:
+        enabled: false
       discovery:
         server-addr: gulimall-nacos.guli:8848
         #namespace: 1047922a-261d-4df4-9875-abc4e3a3cc53

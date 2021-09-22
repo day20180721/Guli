@@ -19,6 +19,8 @@ spring:
         dashboard: gulimall-sentinel.guli:8858
         port: 8719
     nacos:
+      config:
+        enabled: false
       discovery:
         server-addr: gulimall-nacos.guli:8848
         #namespace: b9b147f5-e7a4-4adc-b31f-4deade3fbc69

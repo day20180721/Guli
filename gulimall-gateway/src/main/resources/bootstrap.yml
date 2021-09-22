@@ -1,0 +1,39 @@
+Spring:
+  cloud:
+    nacos:
+      config:
+        extension-configs[0]:
+          data-id: NacosService.yaml
+          group: dev
+          refresh: true
+        extension-configs[1]:
+          data-id: BaseConfig.yaml
+          group: dev   # 默认为DEFAULT_GROUP
+          refresh: true   # 是否动态刷新，默认为false
+        extension-configs[2]:
+          data-id: Router.yaml
+          group: dev
+          refresh: true
+        extension-configs[3]:
+          data-id: Sentinel.yaml
+          group: dev
+          refresh: true
+        server-addr: 127.0.0.1:8848
+        namespace: b9b147f5-e7a4-4adc-b31f-4deade3fbc69
+  zipkin:
+    base-url: http://192.168.30.32:9411/
+    discovery-client-enabled: false
+    sender:
+      type: web
+    message-timeout: 5
+  sleuth:
+    sampler:
+      probability: 1
+
+
+
+
+
+
+
+

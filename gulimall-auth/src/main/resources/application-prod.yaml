@@ -10,6 +10,8 @@ spring:
     port: 6379
   cloud:
     nacos:
+      config:
+        enabled: false
       discovery:
         server-addr: gulimall-nacos.guli:8848
         group: prod
