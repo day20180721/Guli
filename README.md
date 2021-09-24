@@ -25,10 +25,12 @@
   ![image](https://github.com/day20180721/Guli/blob/dev/images/cache.png)
   ![image](https://github.com/day20180721/Guli/blob/dev/images/nocache.png)
   沒有緩存除了程式運行時間增加外，如果該變量內存占用超過JVM新生代就會導致此變量直接進入老年區，而反覆的請求就會讓老年區快速被占滿，最後強制FullGC
-  `VisualVM`中開啟/不開啟
+  </br>
+  </br>
+  `VisualVM`中開啟/不開啟，兩圖為一組
   ![image](https://github.com/day20180721/Guli/blob/dev/images/cache-jvm-1.png)
   ![image](https://github.com/day20180721/Guli/blob/dev/images/cache-jvm-2.png)
-  ---
+  </br>
   ![image](https://github.com/day20180721/Guli/blob/dev/images/nocache-jvm-1.png)
   ![image](https://github.com/day20180721/Guli/blob/dev/images/nocache-jvm-2.png)
 * Thymleaf開啟緩存
