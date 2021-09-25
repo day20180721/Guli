@@ -1,7 +1,13 @@
 # Guli
+### 購物車
+根據userid或visitorid在Redis中用map收集
+* 訪客購物車 </br>
+  用戶在沒登錄的情況下訪問購物車時，伺服器會判斷用戶端Session在Spring session中是否有登錄，如果沒有則會返回臨時的cookie(visitorid)，直到訪客登陸後再次訪問購物車，就會把visitorid對應的購物項資料加入到userid中。
+
+
+### 影響請求速度的原因
 ###### 以下測試皆在`JMeter`與`VisualVM`中，且配置如下</br>
   ![image](https://github.com/day20180721/Guli/blob/dev/images/配置.png)
-### 影響請求速度的原因
 * 請求至目標伺服器所歷經的微服務多寡</br>
   ###### nginx -> spring gateway -> 伺服器 `TPS262`  ![image](https://github.com/day20180721/Guli/blob/dev/images/cache.png)
   ###### spring gateway -> 伺服器 `TPS322` ![image](https://github.com/day20180721/Guli/blob/dev/images/gateway.png)
