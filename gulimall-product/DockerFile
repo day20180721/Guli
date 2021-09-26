@@ -1,0 +1,5 @@
+FROM java:8
+EXPOSE 8080
+VOLUME /tmp
+ADD target/*.jar /app.jar
+CMD ["java","-jar","-Xms128m","-Xmx500m","/app.jar","--spring.profiles.active=prod"]
