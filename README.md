@@ -6,13 +6,18 @@
 提供資料表給renren-generator，會生成對應該表的CRUD(Controller、Service、Dao)及前端Vue介面(基於renren-fast)
 ### 秒殺
 面對高併發的流量，我們需要在最短時間內處理完請求，所以處理一個請求的過程為</br>
-`判斷是否已經購買 -> 請求Redis信號量 --成功-> 發送購買成功的Rabbitmq --> 達到最終一致性`
+`判斷是否已經購買 -> 請求Redis信號量 --成功-> 發送購買成功的Rabbitmq --> 達到最終一致性`</br>
+Redis + Rabbitmq
+![image](https://user-images.githubusercontent.com/44454920/134794870-86418dab-5c38-4225-9f4a-2042f9d08c10.png)
+
 ### 秒殺活動自動更新
 使用spring cronjob設定每隔一段時間就去資料庫查詢近期活動，並將關聯的商品訊息、數量信號量放到Redis中備用
 為了避免集群重複執行，必須要用分布式鎖(Redisson)來區隔，並且在發布近期活動時保持冪等性，這裡使用的是在SQL中添加字段Status(1-上架/0-未上架)
 ```java
 @Scheduled(cron = "*/30 * * * * ?")
 ```
+### 秒殺活動開始才能搶購
+每個秒殺商品都需要協帶token才能購買，此token只有在開始的時候才會顯示在html中
 ### 社交登陸
 `用戶Google提供授權 -> 用戶協帶Grant向伺服器請求 -> 使用grant獲取用戶相關資料 -> 儲存至資料庫 `
 <img width="385" height="231"  src="https://miro.medium.com/max/1225/1*SEt7MeJZP3Hxioirj4VMuQ.png" >
