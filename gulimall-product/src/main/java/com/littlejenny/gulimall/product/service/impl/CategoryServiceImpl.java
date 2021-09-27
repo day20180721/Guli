@@ -3,7 +3,6 @@ package com.littlejenny.gulimall.product.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.littlejenny.gulimall.product.conf.TestObject;
 import com.littlejenny.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.littlejenny.gulimall.product.service.CategoryBrandRelationService;
 import com.littlejenny.gulimall.product.vo.Catelog2VO;
