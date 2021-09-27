@@ -1,5 +1,6 @@
 # Guli 
 ###### Guli為教學項目，來源於[此](https://www.youtube.com/playlist?list=PLmOn9nNkQxJEwPjhNwGliP_bw3RjkgFCf)
+### 效果演示在[此](https://reurl.cc/ox1LWD)
 * gulimall.com 首頁
 * search.gulimall.com 搜尋頁面
 * item.gulimall.com 商品詳情頁
