@@ -13,7 +13,7 @@
 多對多的中間表，經常會透過其中一方的ID來查詢相對應的表資料，我們將很常被搜尋的表資料額外儲存在中間表，就能減少SQL的連接次數，以空間換取時間
 ### 社交登陸
 `用戶Google提供授權 -> 用戶協帶Grant向伺服器請求 -> 使用grant獲取用戶相關資料 -> 儲存至資料庫 `
-<img width="385" height="231"  src="https://miro.medium.com/max/1225/1*SEt7MeJZP3Hxioirj4VMuQ.png" >
+<img width="50%" height="50%"  src="https://miro.medium.com/max/1225/1*SEt7MeJZP3Hxioirj4VMuQ.png" >
 ```java 
 @GetMapping("/oauth/google/login")
     public String oauthlogin(){
@@ -128,3 +128,61 @@ Redis + Rabbitmq
 
 ### 如何渲染頁面的速度
 * 使用nginx動靜分離
+### 後續
+* 用外網連接本地網路
+  `註冊no ip -> 本地架設轉發中間件(spring mvc) -> 中間件向虛擬機的nginx發送請求 -> 將請求結果寫回Response`   
+  ![image](https://user-images.githubusercontent.com/44454920/134864533-8ecee3c9-655c-494f-91d5-96b72b1c255b.png)
+  ```java
+  @GetMapping("/**")
+    public void gulimall(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String url = "";
+        String[] split = request.getServerName().split("-");
+        if(split.length == 2){
+            url  = "http://"+split[0]+".gulimall.com" + request.getServletPath();
+        }else if(split.length == 1){
+            url  = "http://gulimall.com" + request.getServletPath();
+        }
+        if("".equals(url)){
+            return;
+        }
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+
+        System.out.println("\nSending 'GET' request to URL : " + url);
+
+        ServletOutputStream outputStream = response.getOutputStream();
+        InputStream inputStream = con.getInputStream();
+        byte[] buffer = new byte[8192];
+        int bytesum = 0;
+        int byteread = 0;
+        while ((byteread = inputStream.read(buffer)) != -1) {
+            bytesum += byteread; // 字節 文件大小
+            outputStream.write(buffer, 0, byteread);
+        }
+        outputStream.flush();
+        outputStream.close();
+        inputStream.close();
+    }
+  ```
+* GitHub觸發Jenkins自動發布Docker鏡像
+    ![image](https://user-images.githubusercontent.com/44454920/134865622-1bf8b89e-511d-4cee-96b4-27a2d3ca44af.png)
+    <img width="50%" height="50%" src="https://user-images.githubusercontent.com/44454920/134867397-9a4e9aa7-211e-4124-b005-ed56f4241525.png" >
+   
+   ```java
+    @PostMapping("/demo")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void demo(HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        String url = "http://192.168.30.32:8080/job/gulimalal-product-test/build";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        //默认值我GET
+        con.setRequestMethod("POST");
+        //添加请求头
+        int responseCode = con.getResponseCode();
+    }
+    ```
+
+
