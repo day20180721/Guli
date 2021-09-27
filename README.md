@@ -1,4 +1,4 @@
-# Guli 是一個微服務架構的項目
+# Guli 
 ###### Guli為教學項目，來源於[此](https://www.youtube.com/playlist?list=PLmOn9nNkQxJEwPjhNwGliP_bw3RjkgFCf)
 * gulimall.com 首頁
 * search.gulimall.com 搜尋頁面
