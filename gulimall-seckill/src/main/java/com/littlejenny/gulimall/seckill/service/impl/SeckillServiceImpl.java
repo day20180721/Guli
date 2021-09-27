@@ -99,16 +99,23 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public SeckillSkuRelationTO seckill(Long sessionId, Long skuId, String token, Integer count) {
-        long begin = System.currentTimeMillis();
         SeckillSkuRelationTO onlineBySku = isOnlineBySku(skuId);
         if (onlineBySku != null && onlineBySku.getToken().equals(token) && onlineBySku.getSeckillLimit().intValue() >= count) {
             VisitorLoginState loginState = UserFilter.visitorLoginState.get();
             String buyRecordKey = SecKillConstants.BUYRECOED_PREFIX + sessionId + "-"+skuId;
             BoundHashOperations<String, String, String> ops = redis.boundHashOps(buyRecordKey);
-
-            if(ops.hasKey(loginState.getUserId())){
-                String buyed = ops.get(loginState.getUserId());
-                int parseInt = Integer.parseInt(buyed);
+            /**
+             * 在買家表內是否有該買家
+             * 有則取得他買的數量
+             * 數量從String轉為Int
+             * 判斷是否超買
+             */
+            boolean userIsBuyer = ops.hasKey(loginState.getUserId());
+            String buyed = "";
+            int parseInt = 0;
+            if(userIsBuyer){
+                buyed = ops.get(loginState.getUserId());
+                parseInt = Integer.parseInt(buyed);
                 if(onlineBySku.getSeckillLimit().intValue() - parseInt < count){
                     return null;
                 }
@@ -118,13 +125,11 @@ public class SeckillServiceImpl implements SeckillService {
             RSemaphore semaphore = client.getSemaphore(key);
             boolean tryAcquire = semaphore.tryAcquire(count);
             if (tryAcquire) {
-
-
-                Integer buyed = 0;
-                if(ops.get(loginState.getUserId()) != null){
-                    buyed = Integer.parseInt(ops.get(loginState.getUserId()));
-                }
-                Integer totalBuy =buyed + count;
+                //TODO 多線程會有問題
+                //假如一個人能買一百件，最壞的情況就是一百次請求都到了這邊停下，那totalBuy就還是只會有1
+                //解決的辦法就是在這邊加鎖，鎖裡面再get一次當前買了多少項目
+                //這個鎖只針對購買的買家
+                Integer totalBuy = parseInt + count;
                 Long offset = onlineBySku.getEndTime() - System.currentTimeMillis();
                 ops.put(loginState.getUserId(),totalBuy.toString());
                 //增加過期時間
@@ -142,8 +147,6 @@ public class SeckillServiceImpl implements SeckillService {
                             RabbitmqConstants.HANDLEORDER_EXCHANGE,
                             RabbitmqConstants.HANDLESECORDER_QUEUE_KEY,
                             order);
-                    long end = System.currentTimeMillis();
-                    System.out.println(end - begin);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

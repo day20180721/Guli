@@ -184,13 +184,16 @@ public class TradeServiceImpl implements TradeService {
 
 // Payment amount
         Amount amount = new Amount();
-        amount.setCurrency("USD");
+        //如果要用TWD就不能有小數點
+        amount.setCurrency("TWD");
 
 // Total must be equal to sum of shipping, tax and subtotal.
         BigDecimal actualPay = bySn.getFreightAmount().add(bySn.getTotalAmount());
         //TODO 因為購買金額太大，所以先設定為5
 //        amount.setTotal(actualPay.setScale(2,RoundingMode.FLOOR).toString());
-        amount.setTotal("5");
+        Integer pay = actualPay.setScale(0,RoundingMode.FLOOR).intValue();
+        amount.setTotal(pay.toString());
+//        amount.setTotal("5");
 //        amount.setDetails(details);
 
 // Transaction information

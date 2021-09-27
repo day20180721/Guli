@@ -31,14 +31,15 @@ public class LoginController {
     @GetMapping("/oauth/google/login")
     public String oauthlogin(){
         Map<String,String> param = new HashMap<>();
-        param.put("scope",AuthConstants.GOOGLE_API_CERTIFICATION_INFO_URL);
+        param.put("scope",AuthConstants.GOOGLE_API_SCOPE_INFO_URL);
         param.put("access_type","offline");
         param.put("include_granted_scopes","true");
         param.put("response_type","code");
         param.put("redirect_uri",AuthConstants.REDIRECT_LONIN_URL);
         param.put("client_id",constants.getClient_id());
-
+        //到達授權頁
         String url = URLs.buildUrl(AuthConstants.GOOGLE_API_CERTIFICATION_PAGE_URL,param);
+
         System.out.println(url);
         return "redirect:" +url;
     }

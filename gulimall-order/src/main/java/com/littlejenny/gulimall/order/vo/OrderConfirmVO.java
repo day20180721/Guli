@@ -10,7 +10,6 @@ public class OrderConfirmVO {
     private List<MemberReceiveAddressVO> addrs;
     private List<CartItemVO> items;
     private Integer integration;
-    private BigDecimal payPrice;
     private Map<Long, HasStockTO> hasStockMap;
 
     public String getOrderSn() {
@@ -66,14 +65,6 @@ public class OrderConfirmVO {
         }
         return count;
     }
-    public BigDecimal getPayPrice() {
-        return payPrice;
-    }
-
-    public void setPayPrice(BigDecimal payPrice) {
-        this.payPrice = payPrice;
-    }
-
     public Map<Long, HasStockTO> getHasStockMap() {
         return hasStockMap;
     }

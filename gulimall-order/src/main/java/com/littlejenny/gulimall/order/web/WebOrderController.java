@@ -21,8 +21,9 @@ public class WebOrderController {
     public String orders(@RequestParam(value = "pageNo",defaultValue = "0")String pageNo, Model model){
         Map<String, Object> params = new HashMap<>();
         params.put("page",pageNo);
-        params.put("limit",10);
-        params.put("order","desc");
+        params.put("limit",15);
+        params.put("sidx","id");
+        params.put("order","DESC");
         List<OrderVO> vo = orderService.queryPageWithItem(pageNo,params);
         model.addAttribute("orders",vo);
         return "list";

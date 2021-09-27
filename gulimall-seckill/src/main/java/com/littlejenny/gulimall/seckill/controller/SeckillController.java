@@ -33,7 +33,6 @@ public class SeckillController {
     @GetMapping("/seckill")
     public R seckill(@RequestParam("sessionId") Long sessionId, @RequestParam("skuId")Long skuId,@RequestParam("token") String token,@RequestParam("count") Integer count){
         SeckillSkuRelationTO to = seckillService.seckill(sessionId,skuId,token,count);
-        System.out.println(to);
         return R.ok().setData(to);
     }
 }

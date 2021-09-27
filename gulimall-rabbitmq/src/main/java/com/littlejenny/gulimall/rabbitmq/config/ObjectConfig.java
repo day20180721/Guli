@@ -84,7 +84,7 @@ public class ObjectConfig {
     }
     @Bean
     public Binding bindingsecOrder(){
-        Binding binding = new Binding(RabbitmqConstants.HANDLESECORDER_QUEUE, Binding.DestinationType.QUEUE,RabbitmqConstants.HANDLESECORDER_QUEUE_KEY,RabbitmqConstants.HANDLEORDER_REAL_QUEUE_KEY,null);
+        Binding binding = new Binding(RabbitmqConstants.HANDLESECORDER_QUEUE, Binding.DestinationType.QUEUE,RabbitmqConstants.HANDLEORDER_EXCHANGE,RabbitmqConstants.HANDLESECORDER_QUEUE_KEY,null);
         return binding;
     }
 }

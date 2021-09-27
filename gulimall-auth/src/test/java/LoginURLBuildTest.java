@@ -19,7 +19,7 @@ public class LoginURLBuildTest {
     @Test
     public void t(){
         Map<String,String> param = new HashMap<>();
-        param.put("scope",AuthConstants.GOOGLE_API_CERTIFICATION_INFO_URL);
+        param.put("scope",AuthConstants.GOOGLE_API_SCOPE_INFO_URL);
         param.put("access_type","offline");
         param.put("include_granted_scopes","true");
         param.put("response_type","code");

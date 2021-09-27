@@ -23,7 +23,6 @@ public class UserFilter implements Filter {
         HttpServletRequest httpServletRequestrequest =(HttpServletRequest) request;
 
         String requestURI = httpServletRequestrequest.getRequestURI();
-        System.out.println(requestURI);
         boolean match = new AntPathMatcher().match("/currentEvent", requestURI);
         boolean match1 = new AntPathMatcher().match("/isOnline/**", requestURI);
         if(match || match1){
