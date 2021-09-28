@@ -185,5 +185,9 @@ Redis + Rabbitmq
         int responseCode = con.getResponseCode();
     }
     ```
+* 虛擬機Git Push的問題
+  vi /etc/ssh/ssh_config
+  Host *
+    IPQoS=throughput
 
 
